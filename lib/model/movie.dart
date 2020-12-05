@@ -22,14 +22,32 @@ class Movie {
   });
 }
 
-void fetchData() async {
-  var response = await http.get(
+Future fetchData() async {
+  var response1 = await http.get(
       "https://api.themoviedb.org/3/movie/popular?api_key=a00637f4ee8ad6a21da7e590effffbf2&language=en-US&page=1");
   // print(response.body);
-  var result = jsonDecode(response.body);
-  var resultList = result["results"];
+  var result1 = jsonDecode(response1.body);
+
+  var resultList = result1["results"];
   // print(resultList[0]["original_title"]);
-  print(resultList.length);
+  var response2 = await http.get(
+      "https://api.themoviedb.org/3/movie/top_rated?api_key=a00637f4ee8ad6a21da7e590effffbf2&language=en-US&page=1");
+  // print(response.body);
+  var result2 = jsonDecode(response2.body);
+
+  var resultList2 = result2["results"];
+  // print(resultList[0]["original_title"]);
+  var response3 = await http.get(
+      "https://api.themoviedb.org/3/movie/upcoming?api_key=a00637f4ee8ad6a21da7e590effffbf2&language=en-US&page=1");
+  // print(response.body);
+  var result3 = jsonDecode(response3.body);
+
+  var resultList3 = result3["results"];
+  // print(resultList[0]["original_title"]);
+  // print(resultList.length);
+  var movieList = [];
+  var topRatedMovieList = [];
+  var bestMovieList = [];
   for (var i = 0; i < resultList.length; i++) {
     movieList.add(Movie(
         id: resultList[i]["id"].toString(),
@@ -41,31 +59,34 @@ void fetchData() async {
         year: resultList[i]["release_date"].substring(0, 4),
         duration: "136"));
     topRatedMovieList.add(Movie(
-        id: resultList[i]["id"].toString(),
-        title: resultList[i]["original_title"],
+        id: resultList2[i]["id"].toString(),
+        title: resultList2[i]["original_title"],
         imageUrl:
-            "https://image.tmdb.org/t/p/w500" + resultList[i]["poster_path"],
-        description: resultList[i]["overview"],
-        rating: resultList[i]["vote_average"].toString(),
-        year: resultList[i]["release_date"].substring(0, 4),
-        duration: "136"));
+            "https://image.tmdb.org/t/p/w500" + resultList2[i]["poster_path"],
+        description: resultList2[i]["overview"],
+        rating: resultList2[i]["vote_average"].toString(),
+        year: resultList2[i]["release_date"].substring(0, 4),
+        duration: "129"));
     bestMovieList.add(Movie(
-        id: resultList[i]["id"].toString(),
-        title: resultList[i]["original_title"],
+        id: resultList3[i]["id"].toString(),
+        title: resultList3[i]["original_title"],
         imageUrl:
-            "https://image.tmdb.org/t/p/w500" + resultList[i]["poster_path"],
-        description: resultList[i]["overview"],
-        rating: resultList[i]["vote_average"].toString(),
-        year: resultList[i]["release_date"].substring(0, 4),
-        duration: "136"));
+            "https://image.tmdb.org/t/p/w500" + resultList3[i]["poster_path"],
+        description: resultList3[i]["overview"],
+        rating: resultList3[i]["vote_average"].toString(),
+        year: resultList3[i]["release_date"].substring(0, 4),
+        duration: "147"));
   }
-  print(movieList.length);
-  print(movieList);
+  // print(movieList.length);
+  // print(movieList);
+  return {
+    "movieList": movieList,
+    "topRatedMovieList": topRatedMovieList,
+    "bestMovieList": bestMovieList,
+  };
 }
 
-var movieList = [];
-var topRatedMovieList = [];
-var bestMovieList = [];
+
 // final movieList = [
 //   Movie(
 //     id: 'tt4154796',

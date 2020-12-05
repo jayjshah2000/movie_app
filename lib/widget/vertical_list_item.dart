@@ -6,7 +6,9 @@ import 'package:movie_app/model/movie.dart';
 
 class VerticalListItem extends StatelessWidget {
   final int index;
-  VerticalListItem(this.index);
+  final List bestMovieList;
+
+  VerticalListItem(this.index,this.bestMovieList);
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class VerticalListItem extends StatelessWidget {
             Navigator.of(context).pushNamed(
               MovieDetailsScreen.routeName,
               arguments: {
-                'id': bestMovieList[index].id,
-                'title': bestMovieList[index].title,
-                'imageUrl': bestMovieList[index].imageUrl,
-                'description': bestMovieList[index].description,
-                'rating': bestMovieList[index].rating,
-                'year': bestMovieList[index].year,
-                'duration': bestMovieList[index].duration,
+                'id': this.bestMovieList[index].id.toString(),
+                'title': this.bestMovieList[index].title.toString(),
+                'imageUrl': this.bestMovieList[index].imageUrl.toString(),
+                'description': this.bestMovieList[index].description.toString(),
+                'rating': this.bestMovieList[index].rating.toString(),
+                'year': this.bestMovieList[index].year.toString(),
+                'duration': this.bestMovieList[index].duration.toString(),
               },
             );
           },
@@ -42,7 +44,7 @@ class VerticalListItem extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          bestMovieList[index].imageUrl,
+                          this.bestMovieList[index].imageUrl,
                         ),
                       ),
                     ),
@@ -55,7 +57,7 @@ class VerticalListItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        bestMovieList[index].title,
+                        this.bestMovieList[index].title,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -64,23 +66,15 @@ class VerticalListItem extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        
-                        children: [
-                           Flexible(
-                              
-                              fit: FlexFit.loose,
-                              child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                strutStyle: StrutStyle(fontSize: 12.0),
-                                text: TextSpan(
-                                  text: bestMovieList[index].description),
-                              ),
-                            ),
-                          
-                        ],
+                      Flexible(
+                          child: Container(
+                          width: 240,
+                          child: Text(this.bestMovieList[index].description,
+                          overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ),
+                      
                     ],
                   ),
                 ),

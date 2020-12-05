@@ -5,7 +5,9 @@ import 'package:movie_app/screens/home/movie_details_screen.dart';
 
 class TopRatedListItem extends StatelessWidget {
   final int index;
-  TopRatedListItem(this.index);
+    final List topRatedMovieList;
+
+  TopRatedListItem(this.index,this.topRatedMovieList);
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class TopRatedListItem extends StatelessWidget {
           Navigator.of(context).pushNamed(
             MovieDetailsScreen.routeName,
             arguments: {
-              'id': topRatedMovieList[index].id,
-              'title': topRatedMovieList[index].title,
-              'imageUrl': topRatedMovieList[index].imageUrl,
-              'description': topRatedMovieList[index].description,
-              'rating': topRatedMovieList[index].rating,
-              'year': topRatedMovieList[index].year,
-              'duration': topRatedMovieList[index].duration,
+              'id': this.topRatedMovieList[index].id,
+              'title': this.topRatedMovieList[index].title,
+              'imageUrl': this.topRatedMovieList[index].imageUrl,
+              'description': this.topRatedMovieList[index].description,
+              'rating': this.topRatedMovieList[index].rating,
+              'year': this.topRatedMovieList[index].year,
+              'duration': this.topRatedMovieList[index].duration,
             },
           );
         },
@@ -37,7 +39,7 @@ class TopRatedListItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(topRatedMovieList[index].imageUrl),
+                      image: NetworkImage(this.topRatedMovieList[index].imageUrl),
                     ),
                   ),
                 ),
@@ -47,7 +49,7 @@ class TopRatedListItem extends StatelessWidget {
               height: 10,
             ),
             Text(
-              topRatedMovieList[index].title,
+              this.topRatedMovieList[index].title,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

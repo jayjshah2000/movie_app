@@ -5,7 +5,8 @@ import 'package:movie_app/model/movie.dart';
 
 class HorizontalListItem extends StatelessWidget {
   final int index;
-  HorizontalListItem(this.index);
+  final List movieList;
+  HorizontalListItem(this.index, this.movieList);
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +18,13 @@ class HorizontalListItem extends StatelessWidget {
           Navigator.of(context).pushNamed(
             MovieDetailsScreen.routeName,
             arguments: {
-              'id': movieList[index].id,
-              'title': movieList[index].title,
-              'imageUrl': movieList[index].imageUrl,
-              'description': movieList[index].description,
-              'rating': movieList[index].rating,
-              'year': movieList[index].year,
-              'duration': movieList[index].duration,
+              'id': this.movieList[index].id.toString(),
+              'title': this.movieList[index].title.toString(),
+              'imageUrl': this.movieList[index].imageUrl.toString(),
+              'description': this.movieList[index].description.toString(),
+              'rating': this.movieList[index].rating.toString(),
+              'year': this.movieList[index].year.toString(),
+              'duration': this.movieList[index].duration.toString(),
             },
           );
         },
@@ -32,22 +33,21 @@ class HorizontalListItem extends StatelessWidget {
             Card(
               elevation: 10,
               child: Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(movieList[index].imageUrl),
-                    ),
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(this.movieList[index].imageUrl),
                   ),
                 ),
               ),
-            
+            ),
             SizedBox(
               height: 10,
             ),
             Text(
-              movieList[index].title,
+              this.movieList[index].title,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,

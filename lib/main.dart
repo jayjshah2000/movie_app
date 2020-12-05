@@ -13,7 +13,7 @@ import 'package:movie_app/model/movie.dart';
 void main(){
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  fetchData();
+  
   runApp(MyApp());
 }
 
