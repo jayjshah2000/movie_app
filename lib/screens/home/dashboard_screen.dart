@@ -23,7 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.indigo[900],
-        title: Text('Movies App'),
+        title: Text('The Movie App'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
