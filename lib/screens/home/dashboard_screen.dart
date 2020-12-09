@@ -5,7 +5,8 @@ import 'package:movie_app/model/movie.dart';
 
 import 'package:movie_app/widget/horizontal_list_item.dart';
 import 'package:movie_app/widget/vertical_list_item.dart';
-import 'package:movie_app/widget/top_rated_list_item.dart';
+import 'package:movie_app/screens/home/movie_details_screen.dart';
+// import 'package:movie_app/widget/top_rated_list_item.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -30,7 +31,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Icons.search,
               color: Colors.white,
             ),
-            onPressed: null,
+            onPressed: () {
+              showSearch(context: context, delegate: SearchData());
+            },
           ),
           IconButton(
             icon: Icon(Icons.logout),
@@ -169,6 +172,104 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SearchData extends SearchDelegate<String> {
+  var movieLists = [
+    'Avengers: Endgame',
+    'Joker',
+    'Mission Mangal',
+    'It: Chapter Two',
+    'Hobbs & Shaw',
+    'The Lion King',
+    'Inception',
+  ];
+  var recentMovies = [
+    'The Dark Knight',
+    'Interstellar',
+  ];
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = "";
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        onPressed: () {
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Column(
+          children: <Widget>[
+            Card(
+              elevation: 10,
+              child: Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_SX300.jpg"),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Avengers: Endgame",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestionList = query.isEmpty
+        ? recentMovies
+        : movieLists.where((element) => element.startsWith(query)).toList();
+
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
+        title: RichText(
+          text: TextSpan(
+              text: suggestionList[index].substring(0, query.length),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              children: [
+                TextSpan(
+                  text: suggestionList[index].substring(query.length),
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ]),
+        ),
+        onTap: () {
+          showResults(context);
+        },
+      ),
+      itemCount: suggestionList.length,
     );
   }
 }
